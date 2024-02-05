@@ -1,12 +1,7 @@
 class Solution {
     public int firstUniqChar(String s) {
-        LinkedHashMap<Character,Integer> hash=new LinkedHashMap<>();
         for(int i=0;i<s.length();i++){
-            if(hash.containsKey(s.charAt(i))) hash.put(s.charAt(i),-1);
-            else hash.put(s.charAt(i),i);
-        }
-        for(Map.Entry<Character,Integer> etr: hash.entrySet()){
-            if(etr.getValue()!=-1) return etr.getValue();
+            if(s.indexOf(s.charAt(i))==s.lastIndexOf(s.charAt(i))) return i;
         }
         return -1;
     }
