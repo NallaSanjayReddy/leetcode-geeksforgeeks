@@ -4,7 +4,6 @@ class Solution {
         for(int i=0;i<s.length();i++){
             chars[s.charAt(i)-'a']++;
         }
-        Arrays.sort(chars);
         HashSet<Integer> hash=new HashSet<>();
         int sum=0;
         for(int i=0;i<chars.length;i++){
