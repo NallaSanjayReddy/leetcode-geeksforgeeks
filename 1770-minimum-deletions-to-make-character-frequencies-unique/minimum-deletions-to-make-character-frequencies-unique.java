@@ -23,7 +23,6 @@ class Solution {
             else{
                 hash.add(chars[i]);
             }
-            System.out.println(hash+", "+sum);
         }
         return sum;
     }
