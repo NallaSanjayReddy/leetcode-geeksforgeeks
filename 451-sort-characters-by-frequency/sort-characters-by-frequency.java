@@ -13,8 +13,6 @@ class Solution {
             Map.Entry<Character,Integer> etr=ptr.poll();
             char j=etr.getKey();
             int k=etr.getValue();
-            System.out.println(j);
-            System.out.println(ptr);
             while(k>0){
                 str+=j;
                 k--;
