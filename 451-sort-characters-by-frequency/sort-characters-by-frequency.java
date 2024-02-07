@@ -8,16 +8,16 @@ class Solution {
         for(Map.Entry<Character,Integer> etr:hash.entrySet()){
             ptr.add(etr);
         }
-        String str="";
+        StringBuilder str = new StringBuilder();
         while(ptr.size()>0){
             Map.Entry<Character,Integer> etr=ptr.poll();
             char j=etr.getKey();
             int k=etr.getValue();
             while(k>0){
-                str+=j;
+                str.append(j);
                 k--;
             }
         }
-        return str;
+        return str.toString();
     }
 }
