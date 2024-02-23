@@ -1,40 +1,39 @@
-import java.util.*;
-
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        Map<Integer, List<int[]>> adj = new HashMap<>();
-        for (int[] flight : flights) {
-            adj.computeIfAbsent(flight[0], key -> new ArrayList<>()).add(new int[] {flight[1], flight[2]});
-        }
-
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[src] = 0;
-
-        Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[] {src, 0});
-        int stops = 0;
-
-        while (!q.isEmpty() && stops <= k) {
-            int sz = q.size();
-            while (sz-- > 0) {
-                int[] curr = q.poll();
-                int node = curr[0];
-                int distance = curr[1];
-
-                if (!adj.containsKey(node)) continue;
-
-                for (int[] next : adj.get(node)) {
-                    int neighbour = next[0];
-                    int price = next[1];
-                    if (price + distance >= dist[neighbour]) continue;
-                    dist[neighbour] = price + distance;
-                    q.offer(new int[] {neighbour, dist[neighbour]});
-                }
+        int[][][] dp=new int[n][n][k+1];
+        HashMap<Integer,HashMap<Integer,Integer>> hash=new HashMap<>();
+        for(int[] ele:flights){
+            if(!hash.containsKey(ele[0])){
+                hash.put(ele[0],new HashMap<>());
             }
-            stops++;
+            hash.get(ele[0]).put(ele[1],ele[2]);
         }
-
-        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+        for(int[][] ele:dp){
+            for(int[] etr:ele){
+                Arrays.fill(etr,-1);
+            }
+        }
+        int val=findit(flights,dp,hash,src,dst,k);
+        System.out.println(hash);
+        // check if the final value is equal to 1000001 and return -1 instead
+        if(val>=1000001) return -1;
+        else return val;
+    }
+    public int findit(int[][] flights, int[][][] dp, HashMap<Integer,HashMap<Integer,Integer>> hash, int src, int dst, int k){
+        // check if the hash map contains the source city before iterating over the entry set
+        if(k>=0 && src!=dst && hash.containsKey(src)){
+            if(dp[src][dst][k]==-1){
+                dp[src][dst][k]=1000001;
+                // iterate only over the adjacent cities and their costs for the source city
+                for(Map.Entry<Integer,Integer> etr:hash.get(src).entrySet()){
+                    if(etr.getKey()==dst) dp[src][dst][k]=Math.min(dp[src][dst][k],etr.getValue()+findit(flights,dp,hash,etr.getKey(),dst,k));
+                    else dp[src][dst][k]=Math.min(dp[src][dst][k],etr.getValue()+findit(flights,dp,hash,etr.getKey(),dst,k-1));
+                }
+                if(dp[src][dst][k]>=1000001) return dp[src][dst][k];
+            }
+            return dp[src][dst][k];
+        }
+        else if(src==dst && k>=0) return 0;
+        return 1000001;
     }
 }
