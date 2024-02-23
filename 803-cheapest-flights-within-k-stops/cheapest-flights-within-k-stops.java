@@ -29,7 +29,6 @@ class Solution {
                     if(etr.getKey()==dst) dp[src][dst][k]=Math.min(dp[src][dst][k],etr.getValue()+findit(flights,dp,hash,etr.getKey(),dst,k));
                     else dp[src][dst][k]=Math.min(dp[src][dst][k],etr.getValue()+findit(flights,dp,hash,etr.getKey(),dst,k-1));
                 }
-                if(dp[src][dst][k]>=1000001) return dp[src][dst][k];
             }
             return dp[src][dst][k];
         }
