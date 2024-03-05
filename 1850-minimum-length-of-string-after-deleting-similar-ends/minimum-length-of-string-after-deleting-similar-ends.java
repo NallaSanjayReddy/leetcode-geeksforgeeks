@@ -5,10 +5,10 @@ class Solution {
         while(i<j){
             if(s.charAt(i)==s.charAt(j)){
                 char curr=s.charAt(i);
-                while(i<s.length() && curr==s.charAt(i)){
+                while(i<=j && curr==s.charAt(i)){
                     i++;
                 }
-                while(j>0 && curr==s.charAt(j)){
+                while(i<=j && curr==s.charAt(j)){
                     j--;
                 }
                 if(i>j) return 0;
