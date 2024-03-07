@@ -16,6 +16,7 @@ class Solution {
             ptr=ptr.next;
             count++;
         }
+        System.out.println(count);
         int val=(count+1)/2;
         ptr=head;
         count=1;
