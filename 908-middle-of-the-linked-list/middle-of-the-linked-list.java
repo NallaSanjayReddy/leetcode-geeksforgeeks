@@ -11,13 +11,13 @@
 class Solution {
     public ListNode middleNode(ListNode head) {
         ListNode ptr=head;
-        int count=1;
+        int count=0;
         while(ptr!=null){
             ptr=ptr.next;
             count++;
         }
         System.out.println(count);
-        int val=(count+1)/2;
+        int val=((count)/2)+1;
         ptr=head;
         count=1;
         while(val!=count){
