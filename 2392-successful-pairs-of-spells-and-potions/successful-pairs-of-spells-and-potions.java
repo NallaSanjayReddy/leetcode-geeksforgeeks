@@ -12,14 +12,20 @@ class Solution {
             while(left<=right){
                 mid = left + (right - left) / 2;
                 if(success<=(long)spells[i]*(long)potions[mid]){
-                    right=mid-1;
+                    if((mid>=1 && (long)spells[i]*(long)potions[mid-1]<success) || mid==0){
+                        count=(potions.length)-mid;
+                        System.out.println(count);
+                        break;
+                    }
+                    else{
+                        right=mid-1;
+                    }
                 }
                 else{
                     left=mid+1;
                 }
             }
-            count = potions.length - left;
-            ans[i] = count;
+            ans[i]=count;
         }
         return ans;
     }
