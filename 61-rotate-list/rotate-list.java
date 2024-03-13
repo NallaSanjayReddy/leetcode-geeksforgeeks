@@ -37,7 +37,6 @@ class Solution {
         temp.next=head;
         dummy.next=prev.next;
         prev.next=null;
-        System.out.println(dummy.next);
         return dummy.next;
     }
     
