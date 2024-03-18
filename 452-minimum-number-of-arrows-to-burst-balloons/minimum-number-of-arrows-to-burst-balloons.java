@@ -1,22 +1,44 @@
 class Solution {
     public int findMinArrowShots(int[][] points) {
-        if (points.length == 0) return 0;
-        
-        // Sort the points based on the end value of each interval
-        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
-        
-        int arrowCount = 1;
-        int arrowLimit = points[0][1];
-        
-        for (int i = 1; i < points.length; i++) {
-            // If the start of the next interval is greater than the current arrow limit,
-            // we need another arrow
-            if (points[i][0] > arrowLimit) {
-                arrowCount++;
-                arrowLimit = points[i][1];
+        PriorityQueue<int[]> ptr=new PriorityQueue<>((a,b)->a[0]-b[0]);
+        for(int[] ele:points){
+            ptr.add(ele);
+        }
+        LinkedList<int[]> ans=new LinkedList<>();
+        int start=Integer.MAX_VALUE;
+        int end=Integer.MIN_VALUE;
+        while(!ptr.isEmpty()){
+            int[] ele=ptr.poll();
+            if(start==Integer.MAX_VALUE && end==Integer.MIN_VALUE){
+                start=ele[0];
+                end=ele[1];
+            }
+            else if(end<ele[0]){
+                ans.add(new int[]{start,end});
+                start=ele[0];
+                end=ele[1];
+            }
+            else if(start>ele[1]){
+                ans.add(new int[]{start,end});
+                start=ele[0];
+                end=ele[1];
+            }
+            else if(start>=ele[0] && end>ele[1]){
+                end=ele[1];
+            }
+            else if(start<ele[0] && end<=ele[1]){
+                start=ele[0];
+            }
+            else if(start<ele[0] && end>ele[1]){
+                start=ele[0];
+                end=ele[1];
+            }
+            else if(start>=ele[0] && end<=ele[1]){
+                continue;
             }
         }
-        
-        return arrowCount;
+        ans.add(new int[]{start,end});
+        System.out.println(ans);
+        return ans.size();
     }
 }
