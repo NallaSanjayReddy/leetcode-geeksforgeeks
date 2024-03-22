@@ -18,7 +18,6 @@ class Solution {
         }
         String s1=str.toString();
         str.reverse();
-        System.out.println(str);
         String s2=str.toString();
         if(s1.equals(s2)){
             return true;
