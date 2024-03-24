@@ -15,7 +15,6 @@ class Solution {
             }
             if(carry!=0) arr[i].append(carry);
             str.append('0');
-            System.out.println(arr[i]);
         }
         StringBuilder ans=new StringBuilder(arr[0]);
         for(int i=1;i<arr.length;i++){
