@@ -1,35 +1,35 @@
 class Solution {
     public String removeKdigits(String num, int k) {
-        if (k >= num.length()) return "0";
-        
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+        if(k >= num.length()) return "0";
+        PriorityQueue<int[]> ptr = new PriorityQueue<>((a, b) -> (b[0] - a[0]));
         char[] arr = num.toCharArray();
-        
-        for (int i = 0; i < arr.length; i++) {
-            int digit = arr[i] - '0';
-            while (!pq.isEmpty() && pq.peek()[0] > digit && k > 0) {
-                int[] top = pq.poll();
-                arr[top[1]] = '*'; // Mark as removed
+        for(int i = 0; i < arr.length; i++){
+            while(!ptr.isEmpty() && (ptr.peek()[0]) > (arr[i] - '0') && k > 0){ 
+                int[] itr = ptr.poll();
+                arr[itr[1]] = '*';
                 k--;
             }
-            pq.offer(new int[]{digit, i});
+            ptr.offer(new int[]{arr[i]-'0',i});
         }
-        
-        while (k > 0 && !pq.isEmpty()) {
-            int[] top = pq.poll();
-            arr[top[1]] = '*'; // Mark as removed
-            k--;
+        for(int i = arr.length - 1; i >= 0 && k > 0; i--){
+            if(arr[i] != '*'){ 
+                arr[i] = '*';
+                k--;
+            }
         }
-        
-        StringBuilder sb = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         boolean leadingZero = true;
-        for (char c : arr) {
-            if (c == '*') continue; // Skip removed digits
-            if (c == '0' && leadingZero) continue; // Skip leading zeros
-            leadingZero = false; // First non-zero digit encountered
-            sb.append(c);
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == '*'){
+                continue;
+            }
+            if(arr[i] == '0' && leadingZero){
+                continue;
+            }
+            leadingZero = false;
+            str.append(arr[i]);
         }
-        
-        return sb.length() == 0 ? "0" : sb.toString();
+        return str.length() == 0 ? "0" : str.toString();
     }
 }
+
