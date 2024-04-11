@@ -17,7 +17,7 @@ class Solution {
                 k--;
             }
             // Store the digit and index as a string, ensuring index is correctly represented
-            ptr.offer(arr[i] + String.valueOf(i));
+            ptr.offer(arr[i] +""+i);
         }
         for(int i = arr.length - 1; i >= 0 && k > 0; i--){
             if(arr[i] != '*'){ 
