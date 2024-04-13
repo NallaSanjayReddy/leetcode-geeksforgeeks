@@ -1,43 +1,31 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+//TC: O(n) + O(n- (n % k)) ~ O(n)
+//SC: O(1)
+
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(k==0 || head==null) return head;
-        ListNode dummy=new ListNode(0);
-        ListNode temp=head;
-        dummy.next=head;
-        int count=0;
-        while(temp!=null){
-            temp=temp.next;
-            count++;
+        if (head == null || head.next == null || k == 0)
+            return head;
+
+        int l = 1; // length of list
+        ListNode temp = head;
+
+        // calculate the list's length
+        while (temp.next != null) {
+            l++;
+            temp = temp.next;
         }
-        if(k>=count){
-            k=k%count;
+
+        temp.next = head; // make the list cyclic
+        k = k % l; // handles the case where k>l
+        k = l - k;
+
+        while (k > 0) {
+            temp = temp.next;
+            k--;
         }
-        if(count==1 || k==0) return head;
-        temp=head;
-        ListNode prev=dummy;
-        int pos=0;
-        while(pos!=(count-k)){
-            prev=temp;
-            temp=temp.next;
-            pos++;
-        }
-        while(temp.next!=null){
-            temp=temp.next;
-        }
-        temp.next=head;
-        dummy.next=prev.next;
-        prev.next=null;
-        return dummy.next;
+        head = temp.next;
+        temp.next = null;
+
+        return head;
     }
-    
 }
