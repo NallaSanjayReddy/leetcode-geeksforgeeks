@@ -1,33 +1,22 @@
 class Solution {
     public int minEatingSpeed(int[] piles, int h) {
-        int left = 1;
-        int right = getMaxPile(piles); // Get the maximum pile size as the upper bound for binary search
-        
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (canFinish(piles, mid, h)) {
-                right = mid; // If Koko can finish with this speed, try a smaller speed
+        int sum=0;
+        Arrays.sort(piles);
+        if(h==piles.length) return piles[piles.length-1];
+        int l = 1;
+        int r = piles[piles.length - 1];
+        while (l < r) { // Change this to l < r to ensure we don't miss the correct answer
+            int mid = l + (r - l) / 2;
+            long val = 0;
+            for (int pile : piles) {
+                val += (long) Math.ceil((double) pile / mid);
+            }
+            if (val > h) {
+                l = mid + 1; // If we need more hours than h, increase the speed
             } else {
-                left = mid + 1; // If Koko can't finish, try a larger speed
+                r = mid; // If we can finish within h hours, try to see if there's a slower speed possible
             }
         }
-        
-        return left; // The left pointer will be the minimum speed at which Koko can finish eating
-    }
-    
-    private boolean canFinish(int[] piles, int speed, int h) {
-        int time = 0;
-        for (int pile : piles) {
-            time += (pile + speed - 1) / speed; // Faster way to calculate the ceiling without using Math.ceil
-        }
-        return time <= h;
-    }
-    
-    private int getMaxPile(int[] piles) {
-        int max = 0;
-        for (int pile : piles) {
-            max = Math.max(max, pile);
-        }
-        return max;
+        return l;
     }
 }
