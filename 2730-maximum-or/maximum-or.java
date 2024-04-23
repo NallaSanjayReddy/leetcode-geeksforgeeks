@@ -5,8 +5,10 @@ class Solution {
         for (int i = 1; i < n; i++) {
             // pre[i] is the prefix or for i, nums[0] | ... | nums[i - 1]
             pre[i] = pre[i - 1] | nums[i - 1]; 
+        }
+        for (int i = n-2; i>=0; i--) {
             // post[i] is the suffix or for i, nums[i + 1] | ... | nums[n - 1]
-            post[n - 1 - i] = post[n - 1 - i + 1] | nums[n - 1 - i + 1];
+            post[i] = post[i + 1] | nums[i + 1];
         }
         for (int i = 0; i < n; i++) {
             res = Math.max(res, pre[i] | (long) nums[i] << k | post[i]);
