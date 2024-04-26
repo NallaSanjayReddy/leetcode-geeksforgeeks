@@ -1,29 +1,52 @@
 class Solution {
 
     public int minPathSum(int[][] grid) {
-        int m = grid.length - 1;
-        int n = grid[0].length - 1;
-        int[][] dp = new int[m + 1][n + 1];
-        for (int[] arr : dp) {
-            Arrays.fill(arr, -1);
+        LinkedList<pair> list = new LinkedList<>();
+        list.add(new pair(0, 0, grid[0][0]));
+        int[][] dp = new int[grid.length][grid[0].length];
+        for (int[] ele : dp) {
+            Arrays.fill(ele, Integer.MAX_VALUE);
         }
-        return helper(grid, m, n, dp);
+        dp[0][0] = grid[0][0];
+        
+        while (!list.isEmpty()) {
+            pair etr = list.poll();
+            int row = etr.i;
+            int col = etr.j;
+            int val = etr.sum;
+            
+            if (row == grid.length - 1 && col == grid[0].length - 1) {
+                continue;
+            }
+            
+            if (row < grid.length - 1) {
+                int downVal = val + grid[row + 1][col];
+                if (downVal < dp[row + 1][col]) {
+                    dp[row + 1][col] = downVal;
+                    list.add(new pair(row + 1, col, downVal));
+                }
+            }
+            
+            if (col < grid[0].length - 1) {
+                int rightVal = val + grid[row][col + 1];
+                if (rightVal < dp[row][col + 1]) {
+                    dp[row][col + 1] = rightVal;
+                    list.add(new pair(row, col + 1, rightVal));
+                }
+            }
+        }
+        
+        return dp[grid.length - 1][grid[0].length - 1];
     }
+}
 
-    public int helper(int[][] grid, int m, int n, int[][] dp) {
-        if (m == 0 && n == 0) return grid[0][0];
-        if (m == 0) {
-            dp[m][n] = grid[m][n] + helper(grid, m, n - 1, dp);
-            return dp[m][n];
-        }
-        if (n == 0) {
-            dp[m][n] = grid[m][n] + helper(grid, m - 1, n, dp);
-            return dp[m][n];
-        }
-        if (dp[m][n] != -1) return dp[m][n];
-        dp[m][n] =
-            grid[m][n] +
-            Math.min(helper(grid, m, n - 1, dp), helper(grid, m - 1, n, dp));
-        return dp[m][n];
+class pair {
+    int i;
+    int j;
+    int sum;
+    pair(int x, int y, int val) {
+        i = x;
+        j = y;
+        sum = val;
     }
 }
