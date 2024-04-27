@@ -17,14 +17,15 @@ class Solution {
     }
 
     public boolean findit(char[][] board, String word, int k, int i, int j, StringBuilder str, boolean[][] visited) {
-        if (k == word.length()) {
-            return true;
-        }
         if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || visited[i][j] || board[i][j] != word.charAt(k)) {
             return false;
         }
         visited[i][j] = true;
         str.append(board[i][j]);
+        if (k == word.length()-1) {
+            if (str.toString().equals(word)) return true;
+            return false;
+        }
         boolean ans = findit(board, word, k + 1, i - 1, j, new StringBuilder(str), visited) ||
                       findit(board, word, k + 1, i + 1, j, new StringBuilder(str), visited) ||
                       findit(board, word, k + 1, i, j - 1, new StringBuilder(str), visited) ||
