@@ -6,7 +6,6 @@ class Solution {
         for (int i=0; i<n; i++) {
             if (hash.contains(-nums[i])) {
                 max=Math.max(max,Math.abs(nums[i]));
-                hash.add(nums[i]);
             }
             else hash.add(nums[i]);
         }
