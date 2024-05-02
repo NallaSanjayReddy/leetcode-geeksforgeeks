@@ -1,12 +1,16 @@
 class Solution {
     public int findMaxK(int[] nums) {
-        Arrays.sort(nums);
         int n = nums.length;
-        for (int i = n-1; i >= 0; i--) {
-            if (nums[i] > 0 && Arrays.binarySearch(nums, -nums[i]) >= 0) {
-                return nums[i];
+        int max=0;
+        HashSet<Integer> hash=new HashSet<>();
+        for (int i=0; i<n; i++) {
+            if (hash.contains(-nums[i])) {
+                max=Math.max(max,Math.abs(nums[i]));
+                hash.add(nums[i]);
             }
+            else hash.add(nums[i]);
         }
+        if(max!=0) return max;
         return -1;  // If no such pair found
     }
 }
