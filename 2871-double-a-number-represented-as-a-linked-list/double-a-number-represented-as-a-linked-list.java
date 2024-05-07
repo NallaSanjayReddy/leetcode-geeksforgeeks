@@ -1,5 +1,7 @@
 class Solution {
     public ListNode doubleIt(ListNode head) {
+        if (head == null) return null;
+        
         ListNode ptr = head;
         StringBuilder sum = new StringBuilder();
         while (ptr != null) {
@@ -17,10 +19,11 @@ class Solution {
         if (carry != 0) ans.append(carry);
         
         ListNode dummy = new ListNode(0);
-        ListNode current = dummy;
-        for (int i = ans.length() - 1; i >= 0; i--) {
-            current.next = new ListNode(ans.charAt(i) - '0');
-            current = current.next;
+        ptr = new ListNode(ans.charAt(ans.length()-1)-'0');
+        dummy.next=ptr;
+        for (int i = ans.length() - 2; i >= 0; i--) {
+            ptr.next = new ListNode(ans.charAt(i) - '0');
+            ptr = ptr.next;
         }
         
         return dummy.next;
