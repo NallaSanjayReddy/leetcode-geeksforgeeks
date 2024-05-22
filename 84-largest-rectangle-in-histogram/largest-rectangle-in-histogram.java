@@ -1,41 +1,36 @@
 class Solution {
     public int largestRectangleArea(int[] arr) {
-        int max =0;
-        int nsr [] = new int[arr.length];
-        int nsl [] = new int[arr.length];
-
-        //next smaller element to right
-        Stack<Integer> stack = new Stack<>();
+        int[] nsl=new int[arr.length];
+        int[] nsr=new int[arr.length];
+        Stack<Integer> stkl=new Stack<>();
+        Stack<Integer> stkr=new Stack<>();
+        for(int i=0;i<arr.length;i++){
+            while(!stkl.isEmpty() && arr[stkl.peek()]>=arr[i]){
+                stkl.pop();
+            }
+            if(stkl.isEmpty()) nsl[i]=-1;
+            else{
+                nsl[i]=stkl.peek();
+            }
+            stkl.add(i);
+        }
         for(int i=arr.length-1;i>=0;i--){
-            while(!stack.isEmpty() && arr[stack.peek()] >= arr[i] ){
-                stack.pop();
+            while(!stkr.isEmpty() && arr[stkr.peek()]>=arr[i]){
+                stkr.pop();
             }
-            if(stack.isEmpty()){
-                nsr[i]= arr.length;
-            }else{
-                nsr[i] = stack.peek();
+            if(stkr.isEmpty()) nsr[i]=arr.length;
+            else{
+                nsr[i]=stkr.peek();
             }
-            stack.push(i);
+            stkr.add(i);
         }
-        //next smaller element to left
-        stack = new Stack<>();
+        int max=0;
         for(int i=0;i<arr.length;i++){
-            while(!stack.isEmpty() && arr[stack.peek()] >= arr[i] ){
-                stack.pop();
+            if(max<(arr[i]*(nsr[i]-nsl[i]-1))){
+                max=arr[i]*(nsr[i]-nsl[i]-1);
             }
-            if(stack.isEmpty()){
-                
-                nsl[i]= -1;
-            }else{
-                nsl[i] = stack.peek();
-            }
-            stack.push(i);
-        }
-        // current area
-        for(int i=0;i<arr.length;i++){
-            int area = arr[i] * (nsr[i] - nsl[i] - 1);
-            max = Math.max(area,max);
         }
         return max;
+        
     }
 }
