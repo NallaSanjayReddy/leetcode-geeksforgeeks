@@ -1,38 +1,40 @@
-public class Solution {
+class Solution {
+    int max=0;
     public int maxScoreWords(String[] words, char[] letters, int[] score) {
-        int[] count = new int[26];
-        int[] lettersCount = new int[26];
-        
-        for (char c : letters) {
-            count[c - 'a']++;
+        HashMap<Character,Integer> hash=new HashMap<>();
+        for(int i=0;i<letters.length;i++){
+            hash.put(letters[i],hash.getOrDefault(letters[i],0)+1);
         }
-        
-        int ans = 0;
-        ans = backtracking(words, score, count, lettersCount, 0, 0, ans);
-        return ans;
+        findit(words,hash,score,0,0);
+        return max;
     }
-    
-    private int backtracking(String[] words, int[] score, int[] count, int[] lettersCount, int pos, int temp, int ans) {
-        for (int i = 0; i < 26; i++) {
-            if (lettersCount[i] > count[i]) return ans;
+    public void findit(String[] words, HashMap<Character,Integer> hash, int[] score, int i, int val){
+        if(i==words.length){
+            if(max<val) max=val;
+            return;
         }
-        
-        ans = Math.max(ans, temp);
-        
-        for (int i = pos; i < words.length; i++) {
-            for (char c : words[i].toCharArray()) {
-                lettersCount[c - 'a']++;
-                temp += score[c - 'a'];
+        findit(words,hash,score,i+1,val);
+        if(check(words[i],hash)){
+            int val1=val;
+            for(int j=0;j<words[i].length();j++){
+                if(hash.get(words[i].charAt(j))==1) hash.remove(words[i].charAt(j));
+                else hash.put(words[i].charAt(j),hash.get(words[i].charAt(j))-1);
+                val1+=score[words[i].charAt(j) - 'a'];
             }
-            
-            ans = backtracking(words, score, count, lettersCount, i + 1, temp, ans);
-            
-            for (char c : words[i].toCharArray()) {
-                lettersCount[c - 'a']--;
-                temp -= score[c - 'a'];
+            findit(words,hash,score,i+1,val1);
+            for(int j=0;j<words[i].length();j++){
+                hash.put(words[i].charAt(j),hash.getOrDefault(words[i].charAt(j),0)+1);
             }
         }
-        
-        return ans;
+    }
+    public boolean check(String word, HashMap<Character,Integer> hash){
+        HashMap<Character,Integer> hash1=new HashMap<>();
+        for(int i=0;i<word.length();i++){
+            if(hash.containsKey(word.charAt(i)) && hash1.getOrDefault(word.charAt(i),0)<hash.get(word.charAt(i))){
+                hash1.put(word.charAt(i),hash1.getOrDefault(word.charAt(i),0)+1);
+            } 
+            else return false;
+        }
+        return true;
     }
 }
