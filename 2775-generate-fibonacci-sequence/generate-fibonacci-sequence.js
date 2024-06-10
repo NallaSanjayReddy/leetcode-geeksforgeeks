@@ -2,16 +2,14 @@
  * @return {Generator<number>}
  */
 var fibGenerator = function*() {
-    var secondLast = 0;
-    var last = 1;
+    var n1 = 0;
+    var n2 = 1;
     while(true) {
-        yield secondLast;
-        var next = secondLast + last;
-        secondLast = last;
-        last = next;
+        yield n1;
+        var n3 = n1 + n2;
+        n1 = n2;
+        n2 = n3;
     }
-
-    
 };
 
 /**
