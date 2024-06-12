@@ -1,4 +1,25 @@
+class StationPair {
+    String start;
+    String end;
 
+    StationPair(String start, String end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StationPair that = (StationPair) o;
+        return Objects.equals(start, that.start) && Objects.equals(end, that.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return start.hashCode()+end.hashCode();
+    }
+}
 
 class Station {
     String state;
@@ -11,8 +32,8 @@ class Station {
 }
 
 class UndergroundSystem {
-    HashMap<String, Integer> sum;
-    HashMap<String, Integer> count;
+    HashMap<StationPair, Integer> sum;
+    HashMap<StationPair, Integer> count;
     HashMap<Integer, Station> hstart;
     HashMap<Integer, Station> hend;
 
@@ -33,16 +54,15 @@ class UndergroundSystem {
         hend.put(id, etr);
         Station etr1 = hstart.get(id);
         Station etr2 = hend.get(id);
-        String ele = etr1.state+","+etr2.state;
+        StationPair ele = new StationPair(etr1.state, etr2.state);
         sum.put(ele, sum.getOrDefault(ele, 0) + etr2.time - etr1.time);
         count.put(ele, count.getOrDefault(ele, 0) + 1);
     }
 
     public double getAverageTime(String startStation, String endStation) {
-        String ele = startStation+","+endStation;
-        System.out.println(ele);
+        StationPair ele = new StationPair(startStation, endStation);
         int totalTime = sum.getOrDefault(ele, 0);
         int totalCount = count.getOrDefault(ele, 0);
-        return (double) totalTime / totalCount;
+        return totalCount == 0 ? 0 : (double) totalTime / totalCount;
     }
 }
