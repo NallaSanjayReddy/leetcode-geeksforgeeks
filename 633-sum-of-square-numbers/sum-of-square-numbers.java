@@ -1,7 +1,21 @@
 class Solution {
     public boolean judgeSquareSum(int c) {
-        for(int i=0;i<=Math.ceil(Math.sqrt(c/2));i++){
-            if(Math.ceil(Math.sqrt((c-Math.pow(i,2))))==Math.floor(Math.sqrt((c-Math.pow(i,2))))) return true;
+        if (c < 0) {
+            return false;
+        }
+        
+        int left = 0;
+        int right = (int) Math.sqrt(c);
+        while (left <= right) {
+            long sum = (long) left * left + (long) right * right;
+            
+            if (sum == c) {
+               return true;
+            } else if (sum < c) {
+                left++; 
+            } else {
+                right--; 
+            }
         }
         return false;
     }
