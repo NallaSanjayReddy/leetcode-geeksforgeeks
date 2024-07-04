@@ -20,11 +20,11 @@ class Solution {
         else{
             s.append("0");
             String sb=findit(s,n,hash,i+1);
-            if(sb.length()!=0) return sb;
+            if(sb.length()==n) return sb;
             s.delete(s.length()-1,s.length());
             s.append("1");
             sb=findit(s,n,hash,i+1);
-            if(sb.length()!=0) return sb;
+            if(sb.length()==n) return sb;
             s.delete(s.length()-1,s.length());
             return "";
         }
