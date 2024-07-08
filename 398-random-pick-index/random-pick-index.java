@@ -12,7 +12,7 @@ class Solution {
     
     public int pick(int target) {
         ArrayList<Integer> arr=hash.get(target);
-        return arr.get((int)(Math.random()*(double)arr.size()));
+        return arr.get((int)(Math.random()*arr.size()));
     }
 }
 
