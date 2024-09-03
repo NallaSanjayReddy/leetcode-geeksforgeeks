@@ -5,7 +5,7 @@ class Solution {
             public int compare(int[] a, int[] b) {
                 double distA = a[0] * a[0] + a[1] * a[1];
                 double distB = b[0] * b[0] + b[1] * b[1];
-                return Double.compare(distB, distA); // Max-heap based on distance
+                return (distB>distA)?1:-1; // Max-heap based on distance
             }
         });
         
