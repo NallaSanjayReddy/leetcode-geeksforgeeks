@@ -1,28 +1,32 @@
 class Solution {
     public String convert(String s, int numRows) {
-        if (numRows == 1) {
-            return s; // No need to convert for a single row
+       if (numRows == 1 || numRows >= s.length()) {
+            return s;
         }
 
-        String[] arr = new String[numRows];
+        int idx = 0, d = 1;
+        List<Character>[] rows = new ArrayList[numRows];
         for (int i = 0; i < numRows; i++) {
-            arr[i] = ""; // Initialize each row
+            rows[i] = new ArrayList<>();
         }
 
-        int val = (2 * numRows) - 2;
-        for (int i = 0; i < s.length(); i++) {
-            int row = i % val;
-            if (row >= numRows) {
-                row = val - row; // Adjust for zigzag pattern
+        for (char c : s.toCharArray()) {
+            rows[idx].add(c);
+            if (idx == 0) {
+                d = 1;
+            } else if (idx == numRows - 1) {
+                d = -1;
             }
-            arr[row] += s.charAt(i);
+            idx += d;
         }
 
-        StringBuilder ans = new StringBuilder();
-        for (String rowStr : arr) {
-            ans.append(rowStr);
+        StringBuilder result = new StringBuilder();
+        for (List<Character> row : rows) {
+            for (char c : row) {
+                result.append(c);
+            }
         }
 
-        return ans.toString();
+        return result.toString();        
     }
 }
