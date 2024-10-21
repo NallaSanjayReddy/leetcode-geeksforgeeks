@@ -1,25 +1,33 @@
 class Solution {
     public int minimizeMax(int[] nums, int p) {
+        if(nums.length==1){
+            return 0;
+        }
+        int result=0;
         Arrays.sort(nums);
-        int left=0;
-        int right=nums[nums.length-1]-nums[0];
-        while(right>left){
-            int diff=left+((right-left)/2);
-            if(isvalid(nums,diff,p)){
-                right=diff;
-            }
-            else left=diff+1;
+        int low=0;
+        int high=nums[nums.length-1]-nums[0];
+
+
+        while(low <= high){
+            int mid=(low+high)/2;
+            int count =0;
+             int i=1;
+             while(i<nums.length){
+                 if(nums[i]-nums[i-1]<=mid){
+                     count++;
+                     i=i+2;
+                 }else{
+                     i++;
+                 }
+             }
+             if(count >=p){
+                 high=mid-1;
+             }
+             else{
+                 low=mid+1;
+             }
         }
-        return left;
-    }
-    boolean isvalid(int[] nums, int d, int p){
-        int count=0;
-        for(int i=0;i<nums.length-1;i++){
-            if(nums[i+1]-nums[i] <= d){
-                count++;
-                i+=1;
-            }
-        }
-        return count>=p;
+        return low;
     }
 }
