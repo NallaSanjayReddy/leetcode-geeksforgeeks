@@ -18,7 +18,8 @@ class Solution {
             if (grid1[i][j] == 0) return false;
             grid2[i][j] = 0;
             return 
-                findIsland(grid1, grid2, i, j + 1) & findIsland(grid1, grid2, i, j - 1) &
+                findIsland(grid1, grid2, i, j + 1) &
+                findIsland(grid1, grid2, i, j - 1) &
                 findIsland(grid1, grid2, i + 1, j) &
                 findIsland(grid1, grid2, i - 1, j);
         }
