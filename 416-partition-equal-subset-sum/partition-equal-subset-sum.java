@@ -1,27 +1,40 @@
 class Solution {
-
-    // TC = O(n*sum), SC = O(n*sum)
     public boolean canPartition(int[] nums) {
-        int sum = 0;
+        int arraySum = 0;
+
+        // Calculate sum of array.
         for (int num : nums) {
-            sum += num;
+            arraySum += num;
         }
-        if (sum % 2 != 0) return false;
-        int target = sum / 2;
-        boolean[][] dp = new boolean[nums.length + 1][target + 1];
-        int n = nums.length;
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= target; j++) {
-                if (i == 0 || j == 0) {
-                    if (i == 0) dp[i][j] = false; else if (j == 0) dp[i][j] =
-                        true;
-                } else if (j >= nums[i - 1]) {
-                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+
+        // If total sum is odd, it cannot be partitioned into equal sum subsets.
+        if (arraySum % 2 != 0) {
+            return false;
+        }
+
+        // Calculate the subset sum.
+        int subsetSum = arraySum / 2;
+
+        // Create a lookup table and fill all entries with FALSE.
+        boolean[][] dp = new boolean[subsetSum + 1][nums.length + 1];
+
+        // Initialize the first row as TRUE as each array has a subset whose sum is zero
+        for (int i = 0; i <= nums.length; i++) {
+            dp[0][i] = true;
+        }
+
+        // Fill the lookup table in a bottom-up manner.
+        for (int i = 1; i <= subsetSum; i++) {
+            for (int j = 1; j <= nums.length; j++) {
+                if (nums[j - 1] > i) {
+                    dp[i][j] = dp[i][j - 1];
                 } else {
-                    dp[i][j] = dp[i - 1][j];
+                    dp[i][j] = dp[i - nums[j - 1]][j - 1] || dp[i][j - 1];
                 }
             }
         }
-        return dp[n][target];
+
+        // Return the last index of the matrix, which is our answer.
+        return dp[subsetSum][nums.length];
     }
 }
